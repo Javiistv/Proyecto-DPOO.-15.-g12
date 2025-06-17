@@ -42,18 +42,15 @@ public class RegistroViajeDialog extends JDialog {
 	private JComboBox<Omnibus> omnibusBox;
 	private JComboBox<Conductor> conductorBox;
 	private Terminal t;
-	private int numSerie;
 	private static final String[] DESTINOS = {
-		"La Habana", "Santiago de Cuba", "Varadero", "Camag¸ey", "HolguÌn", "Cienfuegos", "Trinidad"
+		"La Habana", "Santiago de Cuba", "Varadero", "Camag√ºey", "Holgu√≠n", "Cienfuegos", "Trinidad"
 	};
 
 	public RegistroViajeDialog(Principal parent,Terminal terminal) {
 		super(parent, "Registro de Viaje", true);
-		setSize(313, 378); 
+		setSize(469, 479); 
 		setLocationRelativeTo(parent);
 		t = terminal;
-		numSerie = t.getViajes().size();
-		System.out.println(numSerie);
 
 		JPanel panelDatos = new JPanel(new GridLayout(8, 2, 15, 15)); 
 
@@ -153,10 +150,10 @@ public class RegistroViajeDialog extends JDialog {
 					Conductor conductor = (Conductor) conductorBox.getSelectedItem();
 
 					if (conductor == null || omnibus == null) {
-						throw new IllegalArgumentException("Debe seleccionar un Ûmnibus y un conductor.");
+						throw new IllegalArgumentException("Debe seleccionar un √≥mnibus y un conductor.");
 					}
-
-					Viaje nuevo = new Viaje(numSerie, fechaPartida, horaPartida, destino, fechaLlegada, cantKM, omnibus, conductor);
+					int id = t.getViajes().size();
+					Viaje nuevo = new Viaje(id, fechaPartida, horaPartida, destino, fechaLlegada, cantKM, omnibus, conductor);
 					t.addViajes(nuevo);
 					if(omnibus.addViajes(nuevo)){
 						if (conductor.addViajes(nuevo)) {
@@ -172,12 +169,12 @@ public class RegistroViajeDialog extends JDialog {
 										"Viaje Registrado", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 							}else
-								throw new IllegalArgumentException("El omnibus seleccionado no est· disponible en esa fecha.");
+								throw new IllegalArgumentException("El omnibus seleccionado no est√° disponible en esa fecha.");
 						} else {
-							throw new IllegalArgumentException("El conductor seleccionado ya tiene un viaje planificado ese dÌa.");
+							throw new IllegalArgumentException("El conductor seleccionado ya tiene un viaje planificado ese d√≠a.");
 						}
 					}else 
-						throw new IllegalArgumentException("El omnibus no est· disponible ese dÌa");
+						throw new IllegalArgumentException("El omnibus no est√° disponible ese d√≠a");
 
 				} catch (IllegalArgumentException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
